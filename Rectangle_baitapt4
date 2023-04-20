@@ -1,0 +1,46 @@
+#include<iostream>
+#include<stdint.h>
+#include<math.h>
+
+using namespace std;
+
+class SizeData{
+    private:
+        int8_t length;
+        int8_t width;
+    public:
+        void InputData(){
+            printf("Enter length of the rectangle : ");
+            scanf("%d", &length);
+            printf("Enter width of the rectangle : ");
+            scanf("%d", &width);
+        }
+        int8_t Perimeter(){
+            return length+width;
+        }
+        int8_t Acreage(){
+            return length*width;
+        }
+        double DiagonalLine(){
+            return sqrt((length*length) + (width*width));
+        }
+
+        void OutputData(){
+            printf("-PERIMETER = %d\n", Perimeter());
+            printf("-ACREAGE = %d\n", Acreage());
+            printf("-Diagonal line = %f\n", DiagonalLine());
+            if ( length == width ){
+                printf("That is a square");
+            }else{
+                printf("That NOT is a square");
+            }
+        }
+};
+
+int main(int argc, char const *argv[])
+{
+    SizeData Dimension;
+    Dimension.InputData();
+    Dimension.OutputData();
+    return 0;
+}
