@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <math.h>
+
+using namespace std;
+
+class Coordinates{
+    private:
+        int8_t X;
+        int8_t Y;
+    public:
+        Coordinates(int8_t X = 0, int8_t Y = 0);
+        int8_t GetX();
+        int8_t GetY();
+};
+
+Coordinates::Coordinates(int8_t X, int8_t Y){
+    Coordinates::X = X;
+    Coordinates::Y = Y;
+}
+
+int8_t Coordinates::GetX(){
+    return Coordinates::X;
+}
+
+int8_t Coordinates::GetY(){
+    return Coordinates::Y;
+}
+
+class Math{
+    private:
+        Coordinates PointA;
+        Coordinates PointB;
+        Coordinates PointC;
+        double Value_Distance = 0;
+        double Value_Acreage = 0;
+    public:
+        Math(Coordinates PointA, Coordinates PointB);
+        Math(Coordinates PointA, Coordinates PointB, Coordinates PointC);
+        double Distance_Point();
+        double Acreage_Point();
+};
+
+Math::Math(Coordinates PointA, Coordinates PointB){
+    Math::PointA = PointA;
+    Math::PointB = PointB;
+}
+Math::Math(Coordinates PointA, Coordinates PointB, Coordinates PointC){
+    Math::PointA = PointA;
+    Math::PointB = PointB;
+    Math::PointC = PointC;
+}
+double Math::Distance_Point(){
+       Math::Value_Distance = sqrt(pow((PointA.GetX() - PointB.GetX()),2) + pow((PointA.GetY() - PointB.GetY()),2));
+       return Math::Value_Distance;
+}
+double Math::Acreage_Point(){
+    Math::Value_Acreage = abs((PointB.GetX() - PointA.GetX())*(PointC.GetY()-PointA.GetY())-(PointC.GetX() - PointA.GetX())*(PointB.GetY()-PointA.GetY()))/2;
+    return Math::Value_Acreage;
+}
+
+int main(int argc, char const *argv[])
+{
+    Coordinates A(1,0),B(1,5),C(4,1);
+    Math Distance_TwoPoints(A,B);
+    Math Acreage_ThreePoints(A,B,C);
+    printf("Distance of A & B = %f \n", Distance_TwoPoints.Distance_Point());
+    printf("Acreage of A,B,C = %f ",Acreage_ThreePoints.Acreage_Point());
+    return 0;
+}
