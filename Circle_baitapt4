@@ -1,0 +1,38 @@
+#include<iostream>
+#include<stdint.h>
+#include<math.h>
+
+using namespace std;
+
+class Circle{
+    private:
+        int8_t Radius;
+        const double Pi = 3.14;
+    public:
+        void Input_Circle(){
+            printf("Enter value of the radius: ");
+            scanf("%d", &Radius);
+        }
+        int8_t Diameter(){
+            return Radius*2;
+        }
+        double Perimeter(){
+            return 2*Pi*Radius;
+        }
+        double Acreage(){
+            return Pi*Radius*Radius;
+        }
+        void Output_Circle(){
+            printf("-Diameter = %d\n", Diameter());
+            printf("-Perimeter = %f\n", Perimeter());
+            printf("-Acreage = %f", Acreage());
+        }
+};
+
+int main(int argc, char const *argv[])
+{
+    Circle RadiusOfcirle;
+    RadiusOfcirle.Input_Circle();
+    RadiusOfcirle.Output_Circle();
+    return 0;
+}
