@@ -1,0 +1,70 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <math.h>
+#include <string.h>
+
+using namespace std;
+
+class Input_Animals{
+    private:
+        char Name[20];
+        int8_t Age;
+        double Weight;
+        double Height;
+        double BMI =0;
+    public:
+        Input_Animals(char Name[]="\0", int8_t Age = 0, double Weight = 0, double Height = 0);
+        char* Get_Name(){ 
+            return Input_Animals::Name;
+        };
+        int8_t Get_Age(){
+            return Input_Animals::Age;
+        };
+        double Get_Weight(){ 
+            return Input_Animals::Weight;
+        };
+        double Get_Height(){ 
+            return Input_Animals::Height;
+        };
+        double BMI_Value();
+};
+Input_Animals::Input_Animals(char Name[], int8_t Age, double Weight, double Height){
+    strcpy(Input_Animals::Name,Name);
+    Input_Animals::Age = Age;
+    Input_Animals::Weight = Weight;
+    Input_Animals::Height = Height;
+}
+double Input_Animals::BIM_Value(){
+    Input_Animals::BMI = Input_Animals::Get_Weight()/pow(Input_Animals::Get_Height(),2);
+    return Input_Animals::BIM;
+}
+void Compare_Weight(Input_Animals Animal_1, Input_Animals Animal_2){
+    if( Animal_1.Get_Weight() > Animal_2.Get_Weight() ){
+        printf("-%s is heavier than %s\n", Animal_1.Get_Name(), Animal_2.Get_Name());
+    }else if(Animal_1.Get_Weight() < Animal_2.Get_Weight()){
+        printf("-%s is heavier than %s\n", Animal_2.Get_Name(), Animal_1.Get_Name());
+    }else{
+        printf("-%s and %s is equal weight\n", Animal_1.Get_Name(), Animal_2.Get_Name());
+    }
+}
+void Compare_Age(Input_Animals Animal_1, Input_Animals Animal_2){
+    if( Animal_1.Get_Age() > Animal_2.Get_Age() ){
+        printf("-%s is older than %s\n", Animal_1.Get_Age(), Animal_2.Get_Age());
+    }else if(Animal_1.Get_Weight() < Animal_2.Get_Weight()){
+        printf("-%s is older than %s\n", Animal_2.Get_Age(), Animal_1.Get_Age());
+    }else{
+        printf("-%s and %s is equal age\n", Animal_1.Get_Age(), Animal_2.Get_Age());
+    }
+}
+int main(int argc, char const *argv[])
+{
+    Input_Animals Animal1("Tiger", 3, 50, 2);
+    Input_Animals Animal2("Horse", 2, 60, 2.5);
+    printf("\n-The BMI of %s = %f", Animal1.Get_Name(), Animal1.BMI_Value());
+    printf("\n-The BMI of %s = %f", Animal2.Get_Name(), Animal2.BMI_Value());
+    Compare_Age(Animal1, Animal2);
+    Compare_Weight(Animal1, Animal2);
+    return 0;
+}
