@@ -1,0 +1,50 @@
+#include<iostream>
+#include<string.h>
+#include<stdint.h>
+
+using namespace std;
+
+class Information_People{
+    private:
+        char Name[20];
+        char Address[100];
+        int8_t Age;
+    public:
+        Information_People(char Name[] = "\0", char Address[] = "\0", int8_t Age = 0);
+        char *Get_Name(){ 
+            return Information_People::Name;
+        }
+        char *Get_Address(){
+            return Information_People::Address;
+        }
+        int8_t Get_Age(){
+            return Information_People::Age;
+        }
+        void Input_In4(){
+            printf("Name: %s\n", Name);
+            printf("Address: %s\n", Address);
+            printf("Age: %d\n", Age);
+            printf("-----------------------------\n");
+        }
+        int8_t AgeOfPeoPle(int8_t Birth_Year, int8_t Current_Year);
+};
+
+Information_People::Information_People(char Name[], char Address[], int8_t Age){
+    strcpy(Information_People::Name,Name);
+    strcpy(Information_People::Address,Address);
+    Information_People::Age = Age;
+}
+
+int8_t Information_People::AgeOfPeoPle(int8_t Birth_Year, int8_t Current_Year){
+    return Current_Year-Birth_Year;
+}
+
+
+int main(int argc, char const *argv[])
+{
+    Information_People People1("Nguyen Chi", "170/20 Bui Dinh Tuy", 23);
+    Information_People People2("Nguyen Danh", "29/10 duong 45", 23);
+    People1.Input_In4();
+    People2.Input_In4();
+    return 0;
+}
