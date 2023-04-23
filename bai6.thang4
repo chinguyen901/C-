@@ -1,0 +1,77 @@
+#include<iostream>
+#include<math.h>
+#include<stdint.h>
+
+using namespace std;
+
+class Fraction{
+    private:
+        int8_t A;
+        int8_t B;
+    public:
+        Fraction(int8_t A = 0, int8_t B = 1);
+        int8_t Get_A(){ 
+            return Fraction::A;
+        }
+        int8_t Get_B(){
+            return Fraction::B;
+        }
+};
+
+Fraction::Fraction(int8_t A, int8_t B){
+    Fraction::A = A;
+    Fraction::B = B;
+}
+
+class Math{
+    private:
+        Fraction X;
+        Fraction Y;
+
+        double Sum;
+        double Minus ;
+        double Divide ;
+        double Volume ;
+    public:
+        Math(Fraction X, Fraction Y);
+        double Get_Sum(){
+            if (X.Get_B() != 0 && Y.Get_B() != 0){
+            Math::Sum = (X.Get_A()*Y.Get_B()+X.Get_B()*Y.Get_A())/(X.Get_B()*Y.Get_B());
+            return Math::Sum;
+            }
+            else {
+                printf("not availblu");
+            }
+        }
+        double Get_Minus(){
+            Math::Minus = (X.Get_A()*Y.Get_B()-X.Get_B()*Y.Get_A())/(X.Get_B()*Y.Get_B());
+            return Math::Minus;
+        }
+        double Get_Divide(){
+            Math::Divide = (X.Get_A()*Y.Get_B())/(Y.Get_A()*X.Get_B());
+            return Math::Divide;
+        }
+        double Get_Volume(){
+            Math::Volume = (X.Get_A()*Y.Get_A())/(X.Get_B()*Y.Get_B());
+            return Math::Volume;
+        }
+        void Input_Data(){
+            printf("-Sum of Fractions = %f\n", Get_Sum());
+            printf("-Minus of Fractions = %f\n", Get_Minus());
+            printf("-Divide of Fractions = %f\n", Get_Divide());
+            printf("-Volume of Fractions = %f\n", Get_Volume());
+        }
+};
+Math::Math(Fraction X, Fraction Y){
+    Math::X = X;
+    Math::Y = Y;
+}
+
+int main(int argc, char const *argv[])
+{
+    Fraction Number1(2,5);
+    Fraction Number2(1,5);
+    Math Math_Number(Number1,Number2);
+    Math_Number.Input_Data();
+    return 0;
+}
