@@ -1,0 +1,61 @@
+#include<iostream>
+#include<stdint.h>
+#include<string.h>
+#include<math.h>
+
+using namespace std;
+
+class Account_Bank{
+    private:
+        long int STK;
+        double Surplus;
+        char Account_Name[50];
+    public:
+        Account_Bank(char Account_Name[]="\0",long int STK = 0, double Surplus = 0);
+        long int Get_STK(){ 
+            return Account_Bank::STK;
+        };
+        double Get_Surplus(){
+            return Account_Bank::Surplus;
+        };
+        char *Get_AccountName(){
+            return Account_Bank::Account_Name;
+        }
+        void WithDraw(int Money);
+        void AddMoney(int Money);
+};
+
+Account_Bank::Account_Bank(char Account_Name[],long int STK, double Surplus){
+    strcpy(Account_Bank::Account_Name, Account_Name);
+    Account_Bank::STK = STK;
+    Account_Bank::Surplus = Surplus;
+}
+
+void Account_Bank::WithDraw(int Money){
+    if ( (Money%50000) == 0 && Money <=(Get_Surplus()+50000)){
+        printf("Successfully withdrawn with the amount : %d\n", Money);
+        Surplus = Surplus - Money;
+        printf("Your surplus account is %f\n", Surplus);
+    }else{
+        printf("Your surplus account is not enough\n");
+    }
+}
+
+void Account_Bank::AddMoney(int Money){
+    if ( (Money%50000) == 0 ){
+        printf("Amount deposited into the account : %d\n", Money);
+        Surplus = Surplus + Money;
+        printf("Your surplus account is %f\n", Surplus);
+    }else{
+        printf("Invalid deposit amount\n");
+    }
+}
+
+
+int main(int argc, char const *argv[])
+{   
+    Account_Bank Account1("Nguyen Quoc Chi", 7876158, 2000000);
+    Account1.WithDraw(500000);
+    Account1.AddMoney(1000000);
+    return 0;
+}
