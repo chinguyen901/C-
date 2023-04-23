@@ -1,0 +1,54 @@
+#include<iostream>
+#include<stdint.h>
+#include<string.h>
+
+using namespace std;
+
+class Book{
+    private:
+        char Name_Book[20];
+        char Name_Author[20];
+        int16_t Year_Book;
+        int8_t Quantity_Book;
+    public:
+        Book(char Name_Book[] = "\0", char Name_Author[] = "\0", int16_t Year_Book = 0, int8_t Quantity_Book = 0 );
+        char *Get_NameBook(){ return Book::Name_Book;};
+        char *Get_NameAuthor(){ return Book::Name_Author;};
+        int8_t Get_Year(){ return Book::Year_Book;};
+        int8_t Get_Quantity(){ return Book::Quantity_Book;};
+        void Borrow_Book(char Name_Book[], int Day, int Month, int Year);
+        void Give_Book_Back(char Name_Book[], int Day, int Month, int Year);
+};
+Book::Book(char Name_Book[], char Name_Author[], int16_t Year_Book, int8_t Quantity_Book ){
+    strcpy(Book::Name_Book, Name_Book);
+    strcpy(Book::Name_Author, Name_Author);
+    Book::Year_Book = Year_Book;
+    Book::Quantity_Book = Quantity_Book;
+}
+
+void Book::Borrow_Book(char Name_Book[], int Day, int Month, int Year){
+    
+    if (Quantity_Book != 0){
+        printf("You have successfully borrowed the book\n");
+        printf("-Name of book is : %s\n",Name_Book);
+        printf("-Date borrow : %d - %d -%d\n", Day, Month, Year);
+        Quantity_Book = Quantity_Book -1 ;
+    }else {
+        printf("The Book is Unavailable\n");
+    }
+}
+void Book::Give_Book_Back(char Name_Book[], int Day, int Month, int Year){
+        printf("You have successfully give the book back\n");
+        printf("-Name of book is : %s\n",Name_Book);
+        printf("-Date borrow : %d - %d -%d\n", Day, Month, Year);
+        Quantity_Book = Quantity_Book +1 ;
+}
+
+int main(int argc, char const *argv[])
+{
+    Book book1("Alchemist", "Paulo Coelho", 1988 , 1);
+    book1.Borrow_Book("Alchemist", 23, 4, 2023);
+    book1.Give_Book_Back("Alchemist", 25, 4, 2023);
+    book1.Borrow_Book("Alchemist", 27, 4, 2023);
+    return 0;
+}
