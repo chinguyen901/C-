@@ -1,0 +1,65 @@
+#include<iostream>
+#include<stdint.h>
+#include<string.h>
+
+using namespace std;
+
+class Car{
+    private :
+        char Color[10];
+        char Engine_Type[20];
+        double Km;
+    public:
+        Car(char Color[] = "\0", char Engine_Type[] = "\0", double Km = 0);
+        char *Get_color(){
+            return Car::Color;
+        }
+        char *Get_EngineType(){
+            return Car::Engine_Type;
+        }
+        double Get_Km(){
+            return Car::Km;
+        }
+        void Vehicle_Maintenance();
+        void Show_Infor();
+};
+
+Car::Car(char Color[], char Engine_Type[], double Km){
+    strcpy(Car::Color,Color);
+    strcpy(Car::Engine_Type, Engine_Type);
+    Car::Km = Km;
+}
+
+void Car::Vehicle_Maintenance(){
+    if (Km <= 5000 ){
+        printf("-Level 1\n");
+        printf("-Car maintenance costs = 633,620 VND\n ");
+    }
+    else if ( 5000 < Km && Km <= 10000){
+        printf("-Level 2\n");
+        printf("-Car maintenance costs = 1,376,940 VND\n ");
+    }
+    else if ( 10000 < Km && Km <= 20000){
+        printf("-Level 3\n");
+        printf("-Car maintenance costs = 2,180,440 VND\n ");
+    }
+    else if ( 20000 < Km ){
+        printf("-Level 4\n");
+        printf("-Car maintenance costs = 8,870,740 VND\n ");
+    }
+}
+
+void Car::Show_Infor(){
+    printf("\nInformation of Car is :\n");
+    printf(" Color of Car : %s\n", Color);
+    printf(" Engine Type of Car : %s\n", Engine_Type);
+    printf(" Number of kilometers traveled : %f\n", Km);
+}
+
+int main(int argc, char const *argv[])
+{
+    Car Madaz("Blue", "Skyactiv-G 1.5", 5890);
+    Madaz.Vehicle_Maintenance();
+    Madaz.Show_Infor();
+    return 0;
+}
