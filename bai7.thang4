@@ -1,0 +1,57 @@
+#include<iostream>
+#include<stdint.h>
+#include<string.h>
+
+using namespace std;
+
+class Date{
+    private:
+        int16_t Day;
+        int16_t Month;
+        int16_t Year;
+    public:
+        Date(int16_t Day = 0, int16_t Month = 0, int16_t Year = 0);
+        int16_t Get_day(){ return Date::Day;};
+        int16_t Get_month(){ return Date::Month;};
+        int16_t Get_year(){ return Date::Year;};
+
+        void Check_Age(int16_t Current_year);
+        void Check_Holiday(int16_t Day, int16_t Month);
+};
+Date::Date(int16_t Day, int16_t Month, int16_t Year){
+    Date::Day = Day;
+    Date::Month = Month;
+    Date::Year = Year;
+}
+
+void Date::Check_Age(int16_t Current_year){
+    int8_t Age = 0;
+    Age = Current_year - Get_year();
+    printf(" Age is : %d\n", Age);
+}
+
+void Date::Check_Holiday(int16_t Day, int16_t Month){
+    if (Get_day() == 1 && Get_month() == 1){
+        printf(" The name holiday is TET\n");
+    }
+    else if ( Get_day() == 8 && Get_month() == 3){
+        printf(" The name holiday is Woman's Day\n");
+    }
+    else if ( Get_day() == 1 && Get_month() == 4){
+        printf(" The name holiday is April Fool's day\n");
+    }
+    else {
+        printf(" It is not a holiday\n");
+    }   
+}
+
+int main(int argc, char const *argv[])
+{
+    Date a(10,02,2000);
+    Date b(20,02,2001);
+    a.Check_Age(2023);
+    a.Check_Holiday(1,4);
+
+    return 0;
+}
+
