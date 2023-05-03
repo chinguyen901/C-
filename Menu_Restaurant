@@ -1,0 +1,546 @@
+#include<iostream>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string>
+#include<math.h>
+#include<string.h>
+#include<stdint.h>
+#include<vector>
+
+using namespace std;
+
+class FOOD{
+    private:
+        int Id_Food;
+        string Name_Food;
+        uint16_t Price_Food;
+        uint8_t Qty_Food;
+    public:
+        FOOD();
+        // FOOD(string Name_Food = "\0" , uint16_t Price_Food = 0, uint8_t Qty_Food = 0);
+        // void Set_NameFood(string Name_Food){getline(cin, this->Name_Food);};
+        string Get_NameFood(){ return this->Name_Food;};
+
+        // void Set_PriceFood(uint16_t Price_Food){ this->Price_Food = Price_Food;};
+        uint16_t Get_PriceFood(){ return this->Price_Food;};
+
+        void Set_QtyFood(uint8_t Qty_Food){ this->Qty_Food = Qty_Food;};
+        uint8_t Get_QtyFood(){ return this->Qty_Food;};
+
+        virtual void Input_food();
+        int Get_IdFood(){ return this->Id_Food;};
+};
+
+// FOOD::FOOD(string Name_Food, uint16_t Price_Food, uint8_t Qty_Food){
+//     static uint8_t id = 100;
+//     this->Id_Food = id;
+//     id++;
+//     getline(cin,thi)
+//     this->Price_Food = Price_Food;
+//     this->Qty_Food = Qty_Food;
+// }
+FOOD::FOOD(){
+    static int id =100;
+    this->Id_Food= id;
+    id ++;
+
+    this->Name_Food ="";
+    this->Price_Food = 0;
+    this->Qty_Food = 0;
+}
+
+void FOOD::Input_food(){
+    cin.ignore();
+    cout<<"-Name of food: ";
+    getline(cin,Name_Food);
+    cout<<"-Price of food: ";
+    cin>>Price_Food;
+}
+/*Table*/
+typedef struct 
+{
+    int Table_Position;
+    bool Table_Status;
+}Table;
+
+/* Class Manager*/
+
+class MANAGER{
+    private:
+        vector<FOOD> databaseFOOD;
+        vector<Table> databaseTABLE;
+    public:
+        MANAGER(){
+            MANAGER::GetListFood();
+            MANAGER::Get_QtyTable();
+        }
+
+        void Run_Manager();
+
+        void Add_Food();
+        void Edit_Food();
+        void Delete_Food();
+        void Find_Food();
+        void List_Food();
+
+        void Set_QtyTable();
+        int Get_QtyTable(){ return MANAGER::databaseTABLE.size();};
+
+        vector<FOOD> GetListFood(){ return MANAGER::databaseFOOD;};
+        vector<Table> GetStatusTable(){ return MANAGER::databaseTABLE;};
+    
+};
+
+
+void MANAGER::Set_QtyTable(){
+    int qty_table ;
+    cout<<"Enter number table = ";
+    cin>>qty_table;
+    for (int i = 0; i < qty_table; i++)
+    {
+        Table table;
+        table.Table_Position = i;
+        table.Table_Status = false;
+        databaseTABLE.push_back(table);
+    }
+}
+
+void MANAGER::Run_Manager()
+{
+    int KEY = 0;
+    
+    cout<<endl<<"-----------MANAGER------------"<<endl;
+    do
+    {
+        cout<<"* Information of all funcions :"<<endl;
+        cout<<"    [1] Add Food"<<endl;
+        cout<<"    [2] Edit Food"<<endl;
+        cout<<"    [3] Delete Food"<<endl;
+        cout<<"    [4] Find Food"<<endl;
+        cout<<"    [5] List Food"<<endl;
+        cout<<"    [6] Select Table"<<endl;
+        cout<<"    [0] Exit"<<endl;
+        cout<<"Enter the Key : ";
+        cin>>KEY;
+        switch (KEY)
+        {
+            case 1 :
+                cout<<"ADD FOOD: "<<endl;
+                MANAGER::Add_Food();
+                break;
+
+            case 2 :
+                cout<<"EDIT FOOD: "<<endl;
+                MANAGER::Edit_Food();
+                break;            
+
+            case 3 :
+                cout<<"DELETE FOOD: "<<endl;
+                MANAGER::Delete_Food();
+                break; 
+
+            case 4 :
+                cout<<"FIND FOOD: "<<endl;
+                MANAGER::Find_Food();
+                break;
+
+            case 5 :
+                cout<<"LIST FOOD: "<<endl;
+                MANAGER::List_Food();
+                break;            
+
+            case 6 :
+                cout<<"SELECT TABLE: "<<endl;
+                MANAGER::Set_QtyTable();
+                break; 
+            
+            default:
+                cout<<"EXIT"<<endl;
+                break;
+        } 
+    } while (KEY);    
+}
+
+
+/* Add new food for menu */
+void MANAGER::Add_Food(){
+    FOOD New_food;
+    cout<<"Enter your new food you want to ADD:"<<endl;
+    New_food.Input_food();
+    databaseFOOD.push_back(New_food);
+    cout<<"Enter [1] to ADD more"<<endl;
+}
+/* Edit the food */
+
+void MANAGER::Edit_Food(){
+    int id_food;
+    bool CheckID = false;
+    cout<<"Enter ID of Food you want EDIT: ";
+    cin>>id_food;
+    for (int i = 0; i < databaseFOOD.size(); i++)
+    {
+        if(databaseFOOD.at(i).Get_IdFood() == id_food){
+            databaseFOOD.at(i).Input_food();
+            CheckID = true;
+        }
+    }
+    if (CheckID = true){
+            cout<<"- EDIT complete !"<<endl;
+        }
+    else if (CheckID = false){
+        cout<<" - EDIT NOT compete !"<<endl;
+    }
+}
+
+void MANAGER::Delete_Food(){
+    int id;
+    bool Check_id = false;
+    cout<<"Enter ID of Food you want DELETE : ";
+    cin>>id;
+    for (int i = 0; i < databaseFOOD.size(); i++){
+        if ( databaseFOOD.at(i).Get_IdFood() == id){
+            Check_id = true;
+            databaseFOOD.erase(databaseFOOD.begin() + i);
+        }
+        if (Check_id == true){
+            i = databaseFOOD.size();
+            cout<<"Delete complete!"<<endl;
+        }
+    }
+        if (Check_id == false ){
+            cout<<"Delete NOT complete!"<<endl;
+        }
+    cout<<"Enter [3] to complete more"<<endl;
+}
+
+void MANAGER::Find_Food(){
+    int id;
+    bool Check_id = false;
+    cout<<"Enter ID of food you want FIND: ";
+    cin>>id;
+    for (int i = 0; i < databaseFOOD.size(); i++)
+    {
+        if(databaseFOOD.at(i).Get_IdFood() == id){
+            cout<<"Food to find name is : "<<databaseFOOD.at(i).Get_NameFood()<<endl;
+            Check_id = true;
+            i = databaseFOOD.size();
+        }
+    }
+    if (Check_id == false)
+    {
+        cout<<" ID of food not value !"<<endl;
+    }
+    cout<<" Enter [4] to FIND more"<<endl;   
+}
+
+void MANAGER::List_Food(){
+    cout<<"*LIST FOOD*"<<endl;
+    cout<<"STT --- ID  -----  NAME  -----  PRICE  -----  "<<endl;
+    for (int i = 0; i < databaseFOOD.size(); i++)
+    {
+        cout<<i<<" | "<<databaseFOOD.at(i).Get_IdFood()<<"  |  "<<databaseFOOD.at(i).Get_NameFood()<<"  |  "<<databaseFOOD.at(i).Get_PriceFood()<<endl;
+    }
+}
+
+/*Class Employee*/
+
+typedef struct 
+{
+    vector<FOOD> listdataFOOD;
+    Table TABLE;
+}Order;
+
+class Employee{
+    private:
+        vector<Table> DataTABLE;
+        vector<Order> DataODER;
+    public:
+        Employee();
+
+        void GetDataManagerFood(MANAGER *manager);
+        int GetQtyTabale();
+
+        void Run_Employee();
+        void Show_Tablestatus();
+
+        void Oder_Food();
+        void Cancel_Food();
+        void ShowOder_Food();
+        void Payment();
+};
+
+void Employee::Run_Employee(){
+    int KEY = 0;
+    
+    cout<<endl<<"--------EMPLOYEE--------"<<endl;
+    do
+    {
+        cout<<"* Information of all funcions :"<<endl;
+        cout<<"    [1] Order Food"<<endl;
+        cout<<"    [2] Cancel Food"<<endl;
+        cout<<"    [3] Show Order Food"<<endl;
+        cout<<"    [4] Payment"<<endl;
+        cout<<"    [0] Exit"<<endl;
+        cout<<"Enter the Key : ";
+        cin>>KEY;
+        switch (KEY)
+        {
+            case 1 :
+                cout<<"ORDER FOOD: "<<endl;
+                Employee::Oder_Food();
+                break;
+
+            case 2 :
+                cout<<"CANCEL FOOD: "<<endl;
+                Employee::Cancel_Food();
+                break;            
+
+            case 3 :
+                cout<<"SHOW ORDER FOOD: "<<endl;
+                Employee::ShowOder_Food();
+                break; 
+
+            case 4 :
+                cout<<"PAYMENT :"<<endl;
+                Employee::Payment();
+                break; 
+            
+            default:
+                cout<<"EXIT"<<endl;
+                break;
+        } 
+    } while (KEY);    
+}
+
+Employee::Employee(){
+
+}
+
+void Employee::GetDataManagerFood(MANAGER *manager){
+    DataTABLE.clear();
+    //Get inform to all table
+    for(auto New_List : manager->GetStatusTable()){
+        DataTABLE.push_back(New_List);
+    }
+    //Get inform food and take status all table
+    for (int i = 0; i < DataTABLE.size(); i++)
+    {
+        Order New;
+        // Make status table
+        New.TABLE.Table_Position = (DataTABLE.at(i)).Table_Position;
+        New.TABLE.Table_Status = (DataTABLE.at(i)).Table_Status;
+        // Make food table
+        for ( auto New_list : manager->GetListFood())
+        {
+            New.listdataFOOD.push_back(New_list);
+        }
+
+        DataODER.push_back(New);
+    }
+}
+
+int Employee::GetQtyTabale(){
+    return DataTABLE.size();
+}
+
+void Employee::Show_Tablestatus(){
+    cout<<"Table :";
+    for(int i = 1; i <= DataTABLE.size();i++){
+        cout<<" - "<<i;
+    }
+    cout<<endl<<"Status:";
+    for(int i = 0; i< DataTABLE.size(); i++){
+        if((DataTABLE.at(i)).Table_Status == true){
+        cout<<" - "<<"x";
+        } else{
+            cout<<" - "<<" ";
+        }
+    }
+    cout<<endl;
+}
+
+void Employee::Oder_Food(){
+    int id;
+    uint8_t qty;
+    int pos;
+    bool check_food = false;
+    Employee::Show_Tablestatus();
+    cout<<"--* Order Food *--"<<endl;
+    cout<<"Number TABLE = ";
+    cin>>pos;
+    if(pos > 0 && pos <= DataTABLE.size()){
+        DataODER.at(pos-1).TABLE.Table_Status = true;
+        cout<<"Enter ID of food you want ORDER: ";
+        cin>>id;
+        int Qty_food = DataODER.at(pos-1).listdataFOOD.size();
+        for (int i = 0; i < Qty_food; i++)
+        {
+            if (DataODER.at(pos-1).listdataFOOD.at(i).Get_IdFood() == id){
+                check_food = true;
+                cout<<"+Enter quality : ";
+                cin>>qty;
+                qty += (DataODER.at(pos-1)).listdataFOOD.at(i).Get_QtyFood();
+                (DataODER.at(pos-1)).listdataFOOD.at(i).Set_QtyFood(qty);
+                cout<<"The food order is Name: "<<(DataODER.at(pos-1)).listdataFOOD.at(i).Get_NameFood()<<" - Quality :"<<(DataODER.at(pos-1)).listdataFOOD.at(i).Get_QtyFood()<<endl;
+                i = Qty_food;
+            }
+        }
+        if (check_food == false) {
+                cout<<"The food does not exist"<<endl;
+        }
+    } 
+    else {
+        cout<<"The number of table does not exist"<<endl;
+    }
+}
+
+void Employee::Cancel_Food(){
+    int id;
+    uint8_t qty;
+    int pos;
+    bool check_food = false;
+    Employee::Show_Tablestatus();
+    cout<<"--* Cancel Food *--"<<endl;
+    cout<<"Number TABLE = ";
+    cin>>pos;
+    if(pos > 0 && pos <= DataTABLE.size()){
+        if (DataODER.at(pos-1).TABLE.Table_Status == false){
+            cout<<"The table is not food"<<endl;
+        }
+        else{
+        cout<<"Enter ID of food you want ORDER: ";
+        cin>>id;
+        
+        int Qty_food = DataODER.at(pos-1).listdataFOOD.size();
+        for (int i = 0; i < Qty_food; i++)
+        {
+            if (DataODER.at(pos-1).listdataFOOD.at(i).Get_IdFood() == id){
+                check_food = true;
+                qty=0;
+                (DataODER.at(pos-1)).listdataFOOD.at(i).Set_QtyFood(qty);
+                i = Qty_food;
+            }
+        }
+        if (check_food == false) {
+                cout<<"The food is NOT order, cann't cancel it!"<<endl;
+        }
+        }
+    } 
+    else {
+        cout<<"The number of table does not exist"<<endl;
+    }
+}
+
+void Employee::ShowOder_Food(){
+    int pos;
+    int count;
+    Employee::Show_Tablestatus();
+    cout<<"-* Show Order *-"<<endl;
+    cout<<"Number Table: ";
+    cin>>pos;
+    if( pos > 0 && pos <= DataTABLE.size()){
+        if (DataODER.at(pos-1).TABLE.Table_Status == false){
+            cout<<"The table is not food"<<endl;
+        }
+        else{
+            cout<<"---The List food ordered---"<<endl;
+            cout<<"STT -|- ID -|- NAME -|- QUALITY"<<endl;
+            for(auto item : (DataODER.at(pos-1)).listdataFOOD)
+            {
+                
+                if(item.Get_QtyFood() > 0)
+                {
+                    // Show name and quantity Food
+                    cout<<count<<"   "<<item.Get_IdFood()<<"   "<<item.Get_NameFood()<<"   "<<item.Get_QtyFood()<<endl;
+                    count++;
+                }
+            }      
+        }
+    }
+    else{
+        cout<<"The number of Table not exist!"<<endl;
+    }
+}
+
+void Employee::Payment(){
+    int pos,count;
+    uint16_t price_each_food = 0;
+    uint16_t sum_price = 0;
+    Employee::Show_Tablestatus();
+    cout<<"-*PayMent*-"<<endl;
+    cout<<"Number table: ";
+    cin>>pos;
+    if ( pos >0 && pos <= DataTABLE.size())
+    {
+        if (DataODER.at(pos-1).TABLE.Table_Status == false){
+            cout<<"The table have NOT ordered of food"<<endl;
+        }
+        else{
+            cout<<"STT -|- NAME -|- QUALITY -|- PRICE (USD)"<<endl;
+            for(auto item : (DataODER.at(pos-1)).listdataFOOD)
+            {
+                // Check quantity Food > 0, the Food is odered
+                if(item.Get_QtyFood() > 0)
+                {
+                    // Calculation total price for all Food
+                    price_each_food = price_each_food + item.Get_QtyFood()*item.Get_PriceFood();
+                    cout<<count<<"   "<<item.Get_NameFood()<<"   "<<item.Get_QtyFood()<<"   "<<item.Get_PriceFood()<<endl;
+                    sum_price =sum_price + price_each_food;
+                    count++;
+
+                    // Clear qty food after payment
+                    item.Set_QtyFood(0);
+                }
+            }
+            cout<<" Sum of price for your all order is : "<<sum_price<<endl;
+            DataODER.at(pos-1).TABLE.Table_Status = false;
+        }
+    }
+    else{
+        cout<<" The number of table does not exist"<<endl;
+    }
+    
+}
+
+int main(int argc, char const *argv[])
+{
+   int Key;
+    MANAGER manager;
+    Employee employee;
+
+    do
+    {
+        // Show inform for Run main program
+        cout<<"*** Program inform food and manager order of restaurant ***"<<endl;
+        cout<<"------------------------------------"<<endl;
+        cout<<"+  [0] if you want to exit program"<<endl;
+        cout<<"+  [1] if you want to check inform Food in menu"<<endl;
+        cout<<"+  [2] if you book table or order food"<<endl;
+        
+        cout<<"- Key funcion: ";
+        cin>>Key;
+        // Select inform Food or manager
+        switch (Key)
+        {
+        // Import inform Food or check Food
+        case 1:
+            printf("Inform of Food in menu\n");
+            manager.Run_Manager();
+            printf("\n");
+            employee.GetDataManagerFood(&manager);
+            break;
+
+        // Implement all funcion for a restaurant
+        case 2:
+            printf("Book Table or Order Food\n");
+            employee.Run_Employee();
+            break;   
+
+        default:
+            printf("Exit Program\n");
+            break;
+        }
+    } while (Key);
+
+    return 0;
+}
